@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:test_items_list/injector.dart';
 import 'package:test_items_list/presentation/pages/home/home_page.dart';
 
-void main() {
+Future<void> main() async {
+  await setupInjector();
+  await getIt.allReady();
+
   runApp(const MyApp());
 }
 

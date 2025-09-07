@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:test_items_list/domain/usecases/item_use_cases.dart';
+import 'package:test_items_list/injector.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -9,14 +13,11 @@ class MainPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Text(
-            'Добро пожаловать на главную страницу!',
-            style: TextStyle(fontSize: 20),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Это главная вкладка вашего приложения.',
-          ),
+          TextButton(
+              onPressed: () {
+                log(getIt.get<ItemUseCases>().getItems().toString());
+              },
+              child: const Text('Get Items')),
         ],
       ),
     );

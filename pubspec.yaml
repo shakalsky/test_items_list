@@ -13,9 +13,12 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  freezed: ^3.2.0
+  freezed_annotation: ^3.1.0
   get_it: ^8.2.0
   hive: ^2.2.3
   internet_connection_checker_plus: ^2.7.2
+  json_serializable: ^6.11.1
   shared_preferences: ^2.5.3
 
 dev_dependencies:
