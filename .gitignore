@@ -43,3 +43,12 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+/ios/Build/
+/ios/Flutter/
+/ios/Runner.xcworkspace/
+/ios/Runner.xcodeproj/
+/ios/Runner.xcworkspace/xcshareddata/
+/ios/Runner.xcworkspace/xcshareddata/xcschemes/
+/ios/Runner.xcworkspace/xcshareddata/xcschemes/Runner.xcscheme
+/ios/Runner.xcworkspace/xcshareddata/xcschemes/Runner.xcscheme
