@@ -53,7 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
           child: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) => Scaffold(
               appBar: AppBar(
-                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 title: Text(pages[state.selectedTab]),
               ),
               backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,

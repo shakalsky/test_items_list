@@ -33,6 +33,16 @@ class ItemRepository implements IItemRepository {
     }
   }
 
+  @override
+  Future<List<ItemEntity>> getItemsWithPagination({required int page}) async {
+    try {
+      final remoteItems = await _remoteDataSource.getItemsWithPagination(page: page);
+      return remoteItems.map((e) => e.toEntity()).whereType<ItemEntity>().toList(growable: false);
+    } catch (error) {
+      return [];
+    }
+  }
+
   /// Метод для принудительного обновления данных
   Future<List<ItemEntity>> refreshItems() async {
     try {

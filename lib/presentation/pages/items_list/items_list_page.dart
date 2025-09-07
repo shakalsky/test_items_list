@@ -1,3 +1,6 @@
+import 'dart:math' as math;
+
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -13,22 +16,35 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ItemsListBloc, ItemsListState>(
       builder: (context, state) => Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              state.isLoading
-                  ? Center(
-                      child: LoadingAnimationWidget.flickr(
-                        leftDotColor: Colors.grey,
-                        rightDotColor: Colors.pink,
-                        size: 40,
-                      ),
-                    )
-                  : Expanded(
-                      child: state.errorMessage != null
-                          ? Column(
+        child: CustomMaterialIndicator(
+          onRefresh: () async =>
+              context.read<ItemsListBloc>().add(RefreshPage()), // Your refresh logic
+          backgroundColor: Colors.white,
+          indicatorBuilder: (context, controller) {
+            return Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+                value: controller.state.isLoading ? null : math.min(controller.value, 1.0),
+              ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: CustomScrollView(
+              slivers: [
+                state.isLoading
+                    ? SliverFillRemaining(
+                        child: LoadingAnimationWidget.flickr(
+                          leftDotColor: Colors.grey,
+                          rightDotColor: Colors.pink,
+                          size: 40,
+                        ),
+                      )
+                    : state.errorMessage != null
+                        ? SliverFillRemaining(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -38,23 +54,33 @@ class MainPage extends StatelessWidget {
                                   child: const Text('Try again'),
                                 ),
                               ],
-                            )
-                          : ListView.separated(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              itemCount: state.items.length,
-                              itemBuilder: (context, index) => CardTile(
-                                item: state.items[index],
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ItemPage(item: state.items[index]),
-                                  ),
-                                ),
-                              ),
-                              separatorBuilder: (context, index) => const SizedBox(height: 12.0),
                             ),
-                    ),
-            ],
+                          )
+                        : SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: state.items.length,
+                              (context, index) {
+                                if (index == state.items.length - 4) {
+                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                    context.read<ItemsListBloc>().add(GetMoreItems());
+                                  });
+                                }
+                                return Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                    child: CardTile(
+                                      item: state.items[index],
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ItemPage(item: state.items[index]),
+                                        ),
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ),
+              ],
+            ),
           ),
         ),
       ),

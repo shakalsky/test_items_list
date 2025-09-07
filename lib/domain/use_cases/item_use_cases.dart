@@ -11,4 +11,9 @@ class ItemUseCases implements IItemUseCases {
   Future<List<ItemEntity>> getItems() async {
     return await _itemsRepository.getItems();
   }
+
+  @override
+  Future<List<ItemEntity>> getItemsWithPagination({required int page}) async {
+    return await _itemsRepository.getItemsWithPagination(page: page);
+  }
 }

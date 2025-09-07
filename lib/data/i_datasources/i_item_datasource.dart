@@ -10,5 +10,6 @@ abstract interface class IItemLocalDatasource {
 }
 
 abstract interface class IItemRemoteDatasource {
-  Future<List<ItemModel>> getItems();
+  Future<List<ItemModel>> getItems({int? page});
+  Future<List<ItemModel>> getItemsWithPagination({required int page});
 }

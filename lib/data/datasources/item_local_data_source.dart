@@ -23,6 +23,7 @@ class ItemLocalDataSource implements IItemLocalDatasource {
     return _itemsBox.values.toList();
   }
 
+  @override
   Future<void> saveItems(List<ItemModel> items) async {
     await _init();
     await _itemsBox.clear(); // Очищаем старые данные
