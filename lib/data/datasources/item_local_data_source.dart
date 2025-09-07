@@ -2,7 +2,7 @@ import 'package:test_items_list/data/i_datasources/i_item_datasource.dart';
 import 'package:test_items_list/data/models/item/item_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class ItemLocalDataSource implements IItemsDatasource {
+class ItemLocalDataSource implements IItemLocalDatasource {
   late Box<ItemModel> _itemsBox;
   bool _isInitialized = false;
 

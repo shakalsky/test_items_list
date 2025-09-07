@@ -1,11 +1,10 @@
 import 'package:test_items_list/data/i_datasources/i_item_datasource.dart';
 import 'package:test_items_list/domain/entities/item_entity.dart';
 import 'package:test_items_list/domain/i_repositories/i_item_repository.dart';
-import 'package:test_items_list/data/datasources/item_local_data_source.dart';
 
-class ItemRepository implements IItemsRepository {
-  final IItemsDatasource _remoteDataSource;
-  final ItemLocalDataSource _localDataSource;
+class ItemRepository implements IItemRepository {
+  final IItemRemoteDatasource _remoteDataSource;
+  final IItemLocalDatasource _localDataSource;
 
   ItemRepository(this._remoteDataSource, this._localDataSource);
 

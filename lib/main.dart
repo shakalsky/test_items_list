@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_items_list/injector.dart';
 import 'package:test_items_list/presentation/pages/home/home_page.dart';
 import 'package:test_items_list/presentation/pages/settings/settings.bloc.dart';
+import 'package:toastification/toastification.dart';
 
 Future<void> main() async {
   await setupInjector();
@@ -16,15 +17,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => getIt.get<SettingsBloc>(),
-          ),
-        ],
-        child: MyHomePage(title: 'Main'),
+    return ToastificationWrapper(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => getIt.get<SettingsBloc>(),
+            ),
+          ],
+          child: MyHomePage(title: 'Main'),
+        ),
       ),
     );
   }

@@ -21,10 +21,11 @@ class ItemsListState {
     List<ItemEntity>? items,
     bool? isLoading,
     String? errorMessage,
+    bool resetErrorMessage = false,
   }) =>
       ItemsListState(
         items: items ?? this.items,
         isLoading: isLoading ?? this.isLoading,
-        errorMessage: errorMessage ?? this.errorMessage,
+        errorMessage: resetErrorMessage ? null : errorMessage ?? this.errorMessage,
       );
 }

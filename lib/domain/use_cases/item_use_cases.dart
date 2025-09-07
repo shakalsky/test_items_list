@@ -1,11 +1,13 @@
 import 'package:test_items_list/domain/entities/item_entity.dart';
 import 'package:test_items_list/domain/i_repositories/i_item_repository.dart';
+import 'package:test_items_list/domain/i_use_cases/i_item_use_cases.dart';
 
-class ItemUseCases {
-  final IItemsRepository _itemsRepository;
+class ItemUseCases implements IItemUseCases {
+  final IItemRepository _itemsRepository;
 
   ItemUseCases(this._itemsRepository);
 
+  @override
   Future<List<ItemEntity>> getItems() async {
     return await _itemsRepository.getItems();
   }

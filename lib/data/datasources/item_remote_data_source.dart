@@ -2,7 +2,7 @@ import 'package:test_items_list/data/i_datasources/i_item_datasource.dart';
 import 'package:dio/dio.dart';
 import 'package:test_items_list/data/models/item/item_model.dart';
 
-class ItemRemoteDataSource implements IItemsDatasource {
+class ItemRemoteDataSource implements IItemRemoteDatasource {
   final Dio _dio;
 
   ItemRemoteDataSource(this._dio);
