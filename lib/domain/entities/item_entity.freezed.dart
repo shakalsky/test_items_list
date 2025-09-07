@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$ItemEntity {
   int get id;
   String? get name;
-  String? get status;
+  ItemStatus get status;
   String? get species;
   String? get type;
   String? get gender;
@@ -85,7 +85,7 @@ abstract mixin class $ItemEntityCopyWith<$Res> {
   $Res call(
       {int id,
       String? name,
-      String? status,
+      ItemStatus status,
       String? species,
       String? type,
       String? gender,
@@ -114,7 +114,7 @@ class _$ItemEntityCopyWithImpl<$Res> implements $ItemEntityCopyWith<$Res> {
   $Res call({
     Object? id = null,
     Object? name = freezed,
-    Object? status = freezed,
+    Object? status = null,
     Object? species = freezed,
     Object? type = freezed,
     Object? gender = freezed,
@@ -134,10 +134,10 @@ class _$ItemEntityCopyWithImpl<$Res> implements $ItemEntityCopyWith<$Res> {
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      status: freezed == status
+      status: null == status
           ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ItemStatus,
       species: freezed == species
           ? _self.species
           : species // ignore: cast_nullable_to_non_nullable
@@ -302,7 +302,7 @@ extension ItemEntityPatterns on ItemEntity {
     TResult Function(
             int id,
             String? name,
-            String? status,
+            ItemStatus status,
             String? species,
             String? type,
             String? gender,
@@ -354,7 +354,7 @@ extension ItemEntityPatterns on ItemEntity {
     TResult Function(
             int id,
             String? name,
-            String? status,
+            ItemStatus status,
             String? species,
             String? type,
             String? gender,
@@ -404,7 +404,7 @@ extension ItemEntityPatterns on ItemEntity {
     TResult? Function(
             int id,
             String? name,
-            String? status,
+            ItemStatus status,
             String? species,
             String? type,
             String? gender,
@@ -444,7 +444,7 @@ class _ItemEntity extends ItemEntity {
   const _ItemEntity(
       {required this.id,
       this.name,
-      this.status,
+      required this.status,
       this.species,
       this.type,
       this.gender,
@@ -462,7 +462,7 @@ class _ItemEntity extends ItemEntity {
   @override
   final String? name;
   @override
-  final String? status;
+  final ItemStatus status;
   @override
   final String? species;
   @override
@@ -551,7 +551,7 @@ abstract mixin class _$ItemEntityCopyWith<$Res>
   $Res call(
       {int id,
       String? name,
-      String? status,
+      ItemStatus status,
       String? species,
       String? type,
       String? gender,
@@ -582,7 +582,7 @@ class __$ItemEntityCopyWithImpl<$Res> implements _$ItemEntityCopyWith<$Res> {
   $Res call({
     Object? id = null,
     Object? name = freezed,
-    Object? status = freezed,
+    Object? status = null,
     Object? species = freezed,
     Object? type = freezed,
     Object? gender = freezed,
@@ -602,10 +602,10 @@ class __$ItemEntityCopyWithImpl<$Res> implements _$ItemEntityCopyWith<$Res> {
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      status: freezed == status
+      status: null == status
           ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ItemStatus,
       species: freezed == species
           ? _self.species
           : species // ignore: cast_nullable_to_non_nullable

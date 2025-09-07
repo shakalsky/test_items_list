@@ -12,7 +12,13 @@ class ItemRemoteDataSource implements IItemsDatasource {
     final response = await _dio.get('https://rickandmortyapi.com/api/character');
 
     return (response.data as Map<String, dynamic>)['results']
-        .map((e) => ItemModel.fromJson(e))
+        .map((e) {
+          try {
+            return ItemModel.fromJson(e);
+          } catch (e) {
+            return null;
+          }
+        })
         .whereType<ItemModel>()
         .toList();
   }

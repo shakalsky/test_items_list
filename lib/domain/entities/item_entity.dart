@@ -3,6 +3,12 @@ import 'package:test_items_list/data/models/item/item_model.dart';
 
 part 'item_entity.freezed.dart';
 
+enum ItemStatus {
+  alive,
+  dead,
+  unknown,
+}
+
 @freezed
 abstract class ItemEntity with _$ItemEntity {
   const ItemEntity._();
@@ -10,7 +16,7 @@ abstract class ItemEntity with _$ItemEntity {
   const factory ItemEntity({
     required int id,
     String? name,
-    String? status,
+    required ItemStatus status,
     String? species,
     String? type,
     String? gender,

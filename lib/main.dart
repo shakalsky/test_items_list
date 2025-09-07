@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_items_list/injector.dart';
 import 'package:test_items_list/presentation/pages/home/home_page.dart';
+import 'package:test_items_list/presentation/pages/settings/settings.bloc.dart';
 
 Future<void> main() async {
   await setupInjector();
@@ -16,19 +18,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => getIt.get<SettingsBloc>(),
+          ),
+        ],
+        child: MyHomePage(title: 'Main'),
       ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-      ),
-      themeMode: ThemeMode.system,
-      home: const MyHomePage(title: 'Main'),
     );
   }
 }

@@ -30,7 +30,11 @@ abstract class ItemModel with _$ItemModel, EntityConvertibleMixin<ItemEntity> {
   ItemEntity toEntity() => ItemEntity(
         id: id,
         name: name,
-        status: status,
+        status: switch (status) {
+          'Alive' => ItemStatus.alive,
+          'Dead' => ItemStatus.dead,
+          _ => ItemStatus.unknown,
+        },
         species: species,
         type: type,
         gender: gender,

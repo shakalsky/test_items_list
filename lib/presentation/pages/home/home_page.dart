@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_items_list/injector.dart';
+import 'package:test_items_list/presentation/pages/home/home_bloc.dart';
+import 'package:test_items_list/presentation/pages/home/home_state.dart';
+import 'package:test_items_list/presentation/pages/items_list/items_list_bloc.dart';
 import 'package:test_items_list/presentation/pages/items_list/items_list_page.dart';
+import 'package:test_items_list/presentation/pages/settings/settings.bloc.dart';
 import 'package:test_items_list/presentation/pages/settings/settings_page.dart';
+import 'package:test_items_list/presentation/pages/settings/settings_state.dart';
+
+const pages = [
+  'Главная',
+  'Настройки',
+];
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -12,59 +24,57 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  AppThemeMode _themeMode = AppThemeMode.light;
-  int _currentIndex = 0;
-
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: Brightness.dark,
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
-      ),
-      themeMode: _themeMode == AppThemeMode.dark ? ThemeMode.dark : ThemeMode.light,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(_currentIndex == 0 ? 'Главная' : 'Настройки'),
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple,
+            brightness: Brightness.dark,
+          ),
+          useMaterial3: true,
         ),
-        body: _currentIndex == 0
-            ? const MainPage()
-            : SettingsPage(
-                themeMode: _themeMode,
-                onChangeThemeMode: (AppThemeMode themeMode) {
-                  setState(() {
-                    _themeMode = themeMode;
-                  });
-                }),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: _onTabTapped,
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Главная',
+        themeMode: state.themeMode == AppThemeMode.dark ? ThemeMode.dark : ThemeMode.light,
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => getIt.get<HomeBloc>(),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Настройки',
+            BlocProvider(
+              create: (_) => getIt.get<ItemsListBloc>()..add(GetItems()),
             ),
           ],
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) => Scaffold(
+              appBar: AppBar(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                title: Text(pages[state.selectedTab]),
+              ),
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+              body: state.selectedTab == 0 ? const MainPage() : SettingsPage(),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: state.selectedTab,
+                onTap: (index) => context.read<HomeBloc>().add(ChangeTab(index)),
+                type: BottomNavigationBarType.fixed,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: pages[0],
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: pages[1],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
